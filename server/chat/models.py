@@ -60,3 +60,7 @@ class Message(models.Model):
 
   objects = models.Manager()
   timescale = TimescaleManager()
+
+  def __str__(self):
+    return str(self.time)
+
