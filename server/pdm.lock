@@ -31,6 +31,11 @@ dependencies = [
 ]
 
 [[package]]
+name = "django-timescaledb"
+version = "0.2.13"
+summary = "A Django database backend for integration with TimescaleDB"
+
+[[package]]
 name = "psycopg2-binary"
 version = "2.9.6"
 requires_python = ">=3.6"
@@ -58,7 +63,7 @@ summary = "Provider of IANA time zone data"
 lock_version = "4.2"
 cross_platform = true
 groups = ["default"]
-content_hash = "sha256:b46d6edfa8efb7465aa0df41dfe8913653fe38cc50ef8f5dab40dbaafdf3a2d8"
+content_hash = "sha256:037bea1af76dd3cb183b6f2a1589c44150d0e90d8ab1f829e2cae42d80693f04"
 
 [metadata.files]
 "asgiref 3.7.2" = [
@@ -72,6 +77,9 @@ content_hash = "sha256:b46d6edfa8efb7465aa0df41dfe8913653fe38cc50ef8f5dab40dbaaf
 "django 4.2.1" = [
     {url = "https://files.pythonhosted.org/packages/12/13/78e8622180f101e95297965045ff1325ea7301c1b80f756debbeaa84c3be/Django-4.2.1-py3-none-any.whl", hash = "sha256:066b6debb5ac335458d2a713ed995570536c8b59a580005acb0732378d5eb1ee"},
     {url = "https://files.pythonhosted.org/packages/89/76/23ee9b9d2bd4119e930eb19164732b79c0a4f6259ca198209b0fe36551ea/Django-4.2.1.tar.gz", hash = "sha256:7efa6b1f781a6119a10ac94b4794ded90db8accbe7802281cd26f8664ffed59c"},
+]
+"django-timescaledb 0.2.13" = [
+    {url = "https://files.pythonhosted.org/packages/85/9f/88107d46771b0236a80db0ab4324650b73973187141f214b24f46b7c4cf2/django-timescaledb-0.2.13.tar.gz", hash = "sha256:3a2dcdf224af318c6c813c7fbf323fa73ae9bd12d33cdf7540e34344ae62f739"},
 ]
 "psycopg2-binary 2.9.6" = [
     {url = "https://files.pythonhosted.org/packages/01/76/512f0a878dd900902ed818156baccaf94c05d0450534f7b4f714932e3d7e/psycopg2_binary-2.9.6-cp311-cp311-win32.whl", hash = "sha256:1876843d8e31c89c399e31b97d4b9725a3575bb9c2af92038464231ec40f9edb"},

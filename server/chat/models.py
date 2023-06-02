@@ -1,6 +1,9 @@
 from django.conf import settings
 from django.db import models
 
+from timescale.db.models.fields import TimescaleDateTimeField
+from timescale.db.models.managers import TimescaleManager
+
 
 class Organization(models.Model):
   name = models.CharField(max_length=70)
@@ -45,3 +48,15 @@ class Topic(models.Model):
   @property
   def org(self):
     return self.room.org
+
+
+class Message(models.Model):
+  time = TimescaleDateTimeField(interval="10 minutes")
+
+  text = models.TextField(max_length=512)
+
+  topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
+  author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+
+  objects = models.Manager()
+  timescale = TimescaleManager()
