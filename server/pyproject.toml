@@ -12,3 +12,9 @@ dependencies = [
 ]
 requires-python = ">=3.10"
 license = {text = "BSDv3"}
+
+[tool]
+[tool.pdm]
+[tool.pdm.scripts]
+_.env_file = ".env"
+req = "pdm export -o requirements.txt --without-hashes --prod"
