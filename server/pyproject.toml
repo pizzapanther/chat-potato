@@ -7,6 +7,8 @@ authors = [
 ]
 dependencies = [
     "django>=4.2.1",
+    "dj-database-url>=2.0.0",
+    "psycopg2-binary>=2.9.6",
 ]
 requires-python = ">=3.10"
 license = {text = "BSDv3"}
