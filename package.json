@@ -1,0 +1,36 @@
+{
+  "name": "chat-potato",
+  "version": "1.0.0",
+  "description": "Open source chat app for simplified community based organizations",
+  "main": "web/index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "parcel watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pizzapanther/chat-potato.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pizzapanther/chat-potato/issues"
+  },
+  "homepage": "https://github.com/pizzapanther/chat-potato#readme",
+  "dependencies": {
+    "@mdi/font": "^7.2.96",
+    "@quasar/extras": "^1.16.4",
+    "parcel": "^2.9.1",
+    "quasar": "^2.12.0",
+    "vue": "^3.3.4",
+    "vue-router": "^4.2.2"
+  },
+  "targets": {
+    "cpot": {
+      "source": "web/index.html",
+      "distDir": "dist",
+      "context": "browser",
+      "outputFormat": "global"
+    }
+  }
+}
