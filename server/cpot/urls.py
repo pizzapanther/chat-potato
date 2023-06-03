@@ -22,4 +22,6 @@ import chat.views
 
 urlpatterns = [
   path('admin/', admin.site.urls),
+
+  path('api-v1/my-orgs', chat.views.my_orgs),
 ]
