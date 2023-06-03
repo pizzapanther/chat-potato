@@ -5,7 +5,7 @@
   "main": "web/index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "parcel watch"
+    "dev": "parcel serve"
   },
   "repository": {
     "type": "git",
@@ -22,8 +22,11 @@
     "@quasar/extras": "^1.16.4",
     "parcel": "^2.9.1",
     "quasar": "^2.12.0",
-    "vue": "^3.3.4",
-    "vue-router": "^4.2.2"
+    "vue": "^3.3.4"
+  },
+  "alias": {
+    "vue": "vue/dist/vue.esm-browser.js",
+    "@root/*": "./web/$1"
   },
   "targets": {
     "cpot": {
@@ -32,5 +35,8 @@
       "context": "browser",
       "outputFormat": "global"
     }
+  },
+  "devDependencies": {
+    "@parcel/transformer-vue": "^2.9.1"
   }
 }
