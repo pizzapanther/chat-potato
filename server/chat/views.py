@@ -4,9 +4,12 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from chat.serializers import OrgSerializer
+from chat.models import Organization
 
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def my_orgs(request):
-  return Response({"message": "Hello, world!"})
+  orgs = Organization.objects.filter(members=request.user)
+  orgs = OrgSerializer(orgs, many=True)
+  return Response({"results": orgs.data})

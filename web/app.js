@@ -1,5 +1,6 @@
 import { createApp } from "vue";
 import { Quasar } from "quasar";
+import { createPinia } from "pinia";
 
 import "@mdi/font/css/materialdesignicons.min.css";
 import "quasar/dist/quasar.css";
@@ -16,6 +17,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 
+const pinia = createPinia();
 const app = createApp({
   components: {App},
   setup () {
@@ -23,5 +25,6 @@ const app = createApp({
   }
 });
 
+app.use(pinia);
 app.use(Quasar);
 app.mount('#q-app');

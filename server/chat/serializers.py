@@ -6,4 +6,4 @@ from chat.models import Organization
 class OrgSerializer(serializers.ModelSerializer):
   class Meta:
     model = Organization
-    fields = ['name', 'slug']
+    fields = ['id', 'name', 'slug']

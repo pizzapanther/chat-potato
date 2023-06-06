@@ -34,9 +34,15 @@
 <script>
 import { ref } from 'vue';
 
+import useMainStore from '@root/store.js';
+
+
 export default {
   setup () {
     const leftDrawerOpen = ref(false);
+    const mstore = useMainStore();
+
+    mstore.init_orgs('http://localhost:8000');
 
     return {
       leftDrawerOpen,
