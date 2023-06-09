@@ -10,23 +10,28 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-import os
 from pathlib import Path
 
-import dj_database_url
+import environ
+
+env = environ.Env(
+  DEBUG=(bool, False),
+  CORS_ALLOWED_ORIGINS=(list, []),
+  CORS_ALLOWED_ORIGIN_REGEXES=(list, []),
+  CORS_ALLOW_ALL_ORIGINS=(bool, True),
+)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['SECRET_KEY']
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -41,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'corsheaders',
     'rest_framework',
     'django_filters',
 
@@ -50,6 +56,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -82,7 +89,7 @@ WSGI_APPLICATION = 'cpot.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(default='postgres:///cpot?host=/var/run/postgresql')
+    'default': env.db_url(default='postgres:///cpot?host=/var/run/postgresql')
 }
 
 
@@ -132,3 +139,7 @@ REST_FRAMEWORK = {
   'PAGE_SIZE': 300,
   'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
+
+CORS_ALLOWED_ORIGINS = env('CORS_ALLOWED_ORIGINS')
+CORS_ALLOWED_ORIGIN_REGEXES = env('CORS_ALLOWED_ORIGIN_REGEXES')
+CORS_ALLOW_ALL_ORIGINS = env('CORS_ALLOW_ALL_ORIGINS')

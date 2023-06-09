@@ -11,15 +11,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "dj-database-url"
-version = "2.0.0"
-summary = "Use Database URLs in your Django Application."
-dependencies = [
-    "Django>=3.2",
-    "typing-extensions>=3.10.0.0",
-]
-
-[[package]]
 name = "django"
 version = "4.2.1"
 requires_python = ">=3.8"
@@ -29,6 +20,21 @@ dependencies = [
     "sqlparse>=0.3.1",
     "tzdata; sys_platform == \"win32\"",
 ]
+
+[[package]]
+name = "django-cors-headers"
+version = "4.0.0"
+requires_python = ">=3.7"
+summary = "django-cors-headers is a Django application for handling the server headers required for Cross-Origin Resource Sharing (CORS)."
+dependencies = [
+    "Django>=3.2",
+]
+
+[[package]]
+name = "django-environ"
+version = "0.10.0"
+requires_python = ">=3.5,<4"
+summary = "A package that allows you to utilize 12factor inspired environment variables to configure your Django application."
 
 [[package]]
 name = "django-filter"
@@ -87,20 +93,24 @@ summary = "Provider of IANA time zone data"
 lock_version = "4.2"
 cross_platform = true
 groups = ["default"]
-content_hash = "sha256:20165b5e771d1a4a23640b701d2d42e2542b16850386b90b3786704dc288b967"
+content_hash = "sha256:8637f816c3228e63c6c9e2fd06d4a51e3c0c13ee5c669ea2a3dfff16dfb66c13"
 
 [metadata.files]
 "asgiref 3.7.2" = [
     {url = "https://files.pythonhosted.org/packages/12/19/64e38c1c2cbf0da9635b7082bbdf0e89052e93329279f59759c24a10cc96/asgiref-3.7.2.tar.gz", hash = "sha256:9e0ce3aa93a819ba5b45120216b23878cf6e8525eb3848653452b4192b92afed"},
     {url = "https://files.pythonhosted.org/packages/9b/80/b9051a4a07ad231558fcd8ffc89232711b4e618c15cb7a392a17384bbeef/asgiref-3.7.2-py3-none-any.whl", hash = "sha256:89b2ef2247e3b562a16eef663bc0e2e703ec6468e2fa8a5cd61cd449786d4f6e"},
 ]
-"dj-database-url 2.0.0" = [
-    {url = "https://files.pythonhosted.org/packages/12/86/baa0420d364dc9b3d78198ff6a73c2f41d8997026ddb36615d07dbf4c472/dj-database-url-2.0.0.tar.gz", hash = "sha256:a35a9f0f43775ca6f90d819dc456233ef7bcc76b47377d5d908b75c7eb320624"},
-    {url = "https://files.pythonhosted.org/packages/6c/82/46c4560efd5117aa2a8365ed07f5267b297a1afa024411abe51e3a09fbd9/dj_database_url-2.0.0-py3-none-any.whl", hash = "sha256:9c9e5f7224f62635a787e9cc3c6762c9be2b19541a21e3c08fa573bd01609b4b"},
-]
 "django 4.2.1" = [
     {url = "https://files.pythonhosted.org/packages/12/13/78e8622180f101e95297965045ff1325ea7301c1b80f756debbeaa84c3be/Django-4.2.1-py3-none-any.whl", hash = "sha256:066b6debb5ac335458d2a713ed995570536c8b59a580005acb0732378d5eb1ee"},
     {url = "https://files.pythonhosted.org/packages/89/76/23ee9b9d2bd4119e930eb19164732b79c0a4f6259ca198209b0fe36551ea/Django-4.2.1.tar.gz", hash = "sha256:7efa6b1f781a6119a10ac94b4794ded90db8accbe7802281cd26f8664ffed59c"},
+]
+"django-cors-headers 4.0.0" = [
+    {url = "https://files.pythonhosted.org/packages/3e/a8/96d90604e76a0fbe449cb104029f2a003916b68ddf12af3ea390654e5a01/django_cors_headers-4.0.0-py3-none-any.whl", hash = "sha256:e3cbd247a1a835da4cf71a70d4214378813ea7e08337778b82cb2c1bc19d28d6"},
+    {url = "https://files.pythonhosted.org/packages/83/d5/4f98ffda4b32f8da5ceb27908f45bd479ae03842db1083a2139034d3c62f/django_cors_headers-4.0.0.tar.gz", hash = "sha256:a971cd4c75b29974068cc36b5c595698822f1e0edd5f1b32ea42ea37326ad4aa"},
+]
+"django-environ 0.10.0" = [
+    {url = "https://files.pythonhosted.org/packages/28/54/caed659e2f0629693b899fb1c0307919b1a7e29d7052e7f9fb3bb3ddc5ef/django_environ-0.10.0-py2.py3-none-any.whl", hash = "sha256:510f8c9c1d0a38b0815f91504270c29440a0cf44fab07f55942fa8d31bbb9be6"},
+    {url = "https://files.pythonhosted.org/packages/55/66/1878c7a9fa6b584f0ed4a60670e3fb977747e724b0ac6470670f980ebc45/django-environ-0.10.0.tar.gz", hash = "sha256:b3559a91439c9d774a9e0c1ced872364772c612cdf6dc919506a2b13f7a77225"},
 ]
 "django-filter 23.2" = [
     {url = "https://files.pythonhosted.org/packages/21/bd/c64e0c0c45fed5e6ee10efe96b1793d677dc4872932a620356fce28a81c3/django-filter-23.2.tar.gz", hash = "sha256:2fe15f78108475eda525692813205fa6f9e8c1caf1ae65daa5862d403c6dbf00"},
