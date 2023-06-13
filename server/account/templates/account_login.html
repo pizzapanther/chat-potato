@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<form method="POST" action="{{ request.path }}" autocomplete="off">
+  {% csrf_token %}
+  <article class="first">
+    <header>
+      <h1 class="no-margin">Chat Potato Login</h1>
+    </header>
+
+    {{ form.as_p }}
+
+    <footer>
+      <button type="submit" class="auto-width">Login</button>
+    </footer>
+  </article>
+</form>
+{% endblock %}

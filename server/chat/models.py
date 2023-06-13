@@ -5,14 +5,6 @@ from timescale.db.models.fields import TimescaleDateTimeField
 from timescale.db.models.managers import TimescaleManager
 
 
-class Profile(models.Model):
-  user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-
-  @property
-  def jwt(self):
-    return {}
-
-
 class Organization(models.Model):
   name = models.CharField(max_length=70)
   slug = models.SlugField()

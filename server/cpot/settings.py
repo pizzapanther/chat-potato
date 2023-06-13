@@ -19,6 +19,7 @@ env = environ.Env(
   CORS_ALLOWED_ORIGINS=(list, []),
   CORS_ALLOWED_ORIGIN_REGEXES=(list, []),
   CORS_ALLOW_ALL_ORIGINS=(bool, True),
+  AUTH_USE_PASSWORD=(bool, False),
 )
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -50,6 +51,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
 
+    'account',
     'chat',
 ]
 
@@ -143,3 +145,16 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = env('CORS_ALLOWED_ORIGINS')
 CORS_ALLOWED_ORIGIN_REGEXES = env('CORS_ALLOWED_ORIGIN_REGEXES')
 CORS_ALLOW_ALL_ORIGINS = env('CORS_ALLOW_ALL_ORIGINS')
+
+AUTH_USE_PASSWORD = env('AUTH_USE_PASSWORD')
+
+if ALLOWED_HOSTS:
+  BASE_URL = f"https://{ALLOWED_HOSTS[0]}"
+
+else:
+  BASE_URL = "http://localhost:8000"
+
+AUTH_METHODS = []
+if AUTH_USE_PASSWORD:
+  password_url = BASE_URL + '/account/login'
+  AUTH_METHODS.append({'icon': '', 'name': 'Password', 'url': password_url})
