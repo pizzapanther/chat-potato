@@ -1,5 +1,8 @@
+import urllib.parse
+
 from django import forms
 from django import http
+from django.contrib.auth import authenticate
 from django.core.exceptions import ValidationError
 from django.template.response import TemplateResponse
 
@@ -36,8 +39,9 @@ def user_login(request):
     form = LoginForm(request, request.POST)
 
     if form.is_valid():
-      token  = self.user.profile.temp_token
-      return http.HttpResponseRedirect(f"{next}?temp={token}")
+      token  = form.user.profile.temp_token
+      server = urllib.parse.quote(f"{request.scheme}://{request.get_host()}/")
+      return http.HttpResponseRedirect(f"{form.cleaned_data['next']}?temp={token}&server={server}")
 
   return TemplateResponse(request, 'account_login.html', {'form': form})
 

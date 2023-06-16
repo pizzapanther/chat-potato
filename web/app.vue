@@ -25,7 +25,12 @@
     </q-drawer>
 
     <q-page-container>
-
+      <div v-if="mstore.show_login">
+        <server-login :server="mstore.show_login"></server-login>
+      </div>
+      <div v-else>
+        chat
+      </div>
     </q-page-container>
 
   </q-layout>
@@ -35,16 +40,29 @@
 import { ref } from 'vue';
 
 import useMainStore from '@root/store.js';
+import ServerLogin from '@root/components/login.vue'
 
 
 export default {
+  components: {ServerLogin},
   setup () {
     const leftDrawerOpen = ref(false);
     const mstore = useMainStore();
 
-    mstore.init_orgs('http://localhost:8000');
+    function get_temp_token() {
+      let params = new URLSearchParams(location.search);
+      return {token: params.get("temp"), server: params.get("server")};
+    }
+
+    let params = get_temp_token();
+    if (params.token) {
+      mstore.login_with_token(params.server, params.token);
+    } else {
+      mstore.init_orgs('http://localhost:8000');
+    }
 
     return {
+      mstore,
       leftDrawerOpen,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value;
