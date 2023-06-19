@@ -24,6 +24,11 @@ const useMainStore = defineStore('main', {
         var index = this.orgs.length;
         this.orgs.push({user: response.data.user});
         this.init_orgs(server_url, index);
+
+        const url = new URL(location);
+        url.searchParams.delete("temp");
+        url.searchParams.delete("server");
+        history.pushState({}, "", url);
       } catch(e) {
         display_error(e);
       }

@@ -26,7 +26,8 @@ export default {
     const server_url = ref(`${props.server}`);
 
     function onSubmit() {
-      location.href = `${server_url.value}/account/login/?next=${location.href}`;
+      var url = location.protocol + '//' + location.host + location.pathname;
+      location.href = `${server_url.value}/account/login/?next=${url}`;
     }
 
     return {
