@@ -2,9 +2,13 @@ import urllib.parse
 
 from django import forms
 from django import http
+from django.conf import settings
 from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.template.response import TemplateResponse
+
+import jwt
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -40,7 +44,7 @@ def user_login(request):
 
     if form.is_valid():
       token  = form.user.profile.temp_token
-      server = urllib.parse.quote(f"{request.scheme}://{request.get_host()}/")
+      server = urllib.parse.quote(f"{request.scheme}://{request.get_host()}")
       return http.HttpResponseRedirect(f"{form.cleaned_data['next']}?temp={token}&server={server}")
 
   return TemplateResponse(request, 'account_login.html', {'form': form})
@@ -48,9 +52,23 @@ def user_login(request):
 
 @api_view(['POST'])
 def get_perm_token(request):
-  # auth user with temp token
-  user = UserSerializer(user)
-  return Response({"user": user.data})
+  token = request.data.get('token')
+  if token:
+    try:
+      payload = jwt.decode(token, settings.SECRET_KEY, algorithms="HS256")
+
+    except:
+      return http.HttpResponse("Invalid Token", content_type="text/plain", status=400)
+
+    else:
+      user = User.objects.filter(id=payload['user'], is_active=True, profile__version=payload['version']).first()
+      if user:
+        user = UserSerializer(user)
+        return Response({"user": user.data})
+
+      return http.HttpResponse("Invalid User", content_type="text/plain", status=400)
+
+  return http.HttpResponse("Token Required", content_type="text/plain", status=400)
 
 
 @api_view(['GET'])

@@ -58,7 +58,7 @@ export default {
     if (params.token) {
       mstore.login_with_token(params.server, params.token);
     } else {
-      mstore.init_orgs('http://localhost:8000');
+      mstore.init_orgs('http://localhost:8000', 0);
     }
 
     return {
