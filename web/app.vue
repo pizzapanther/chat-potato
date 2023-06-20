@@ -38,6 +38,7 @@
 
 <script>
 import { ref } from 'vue';
+import { mapState } from 'pinia';
 
 import useMainStore from '@root/store.js';
 import ServerLogin from '@root/components/login.vue'
