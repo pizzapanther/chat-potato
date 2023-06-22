@@ -1,6 +1,7 @@
 import { createApp } from "vue";
 import { Quasar } from "quasar";
 import { createPinia } from "pinia";
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 
 import "@mdi/font/css/materialdesignicons.min.css";
 import "quasar/dist/quasar.css";
@@ -18,6 +19,8 @@ if (process.env.NODE_ENV !== 'production') {
 
 
 const pinia = createPinia();
+pinia.use(piniaPluginPersistedstate);
+
 const app = createApp({
   components: {App},
   setup () {

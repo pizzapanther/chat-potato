@@ -13,11 +13,9 @@
         </q-toolbar-title>
       </q-toolbar>
 
-      <!-- <q-tabs align="left">
-        <q-route-tab label="Page One" />
-        <q-route-tab label="Page Two" />
-        <q-route-tab label="Page Three" />
-      </q-tabs> -->
+      <q-tabs align="left">
+        <q-tab v-for="org in orgs" :label="org.name" />
+      </q-tabs>
     </q-header>
 
     <q-drawer show-if-above v-model="leftDrawerOpen" side="left" bordered>
@@ -37,7 +35,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { mapState } from 'pinia';
 
 import useMainStore from '@root/store.js';
@@ -55,15 +53,26 @@ export default {
       return {token: params.get("temp"), server: params.get("server")};
     }
 
+    function orgs() {
+      var ret = [];
+      for (const url in mstore.orgs) {
+        mstore.orgs[url].forEach((org) => {
+          ret.push(org);
+        });
+      }
+      return ret;
+    }
+
     let params = get_temp_token();
     if (params.token) {
       mstore.login_with_token(params.server, params.token);
     } else {
-      mstore.init_orgs('http://localhost:8000', 0);
+      mstore.init_orgs('http://localhost:8000');
     }
 
     return {
       mstore,
+      orgs: computed(orgs),
       leftDrawerOpen,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value;
