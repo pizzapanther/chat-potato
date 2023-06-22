@@ -50,11 +50,13 @@ const useMainStore = defineStore('main', {
             this.orgs[server_url] = [];
           }
 
-          this.orgs[server_url].push({
+          var org_data = {
             wrapper: new APIWrapper(server_url, this.users[server_url].jwt),
             rooms: [],
             ...org
-          });
+          };
+          this.orgs[server_url].push(org_data);
+          this.get_rooms(org_data);
         });
       }
 
@@ -65,6 +67,11 @@ const useMainStore = defineStore('main', {
           display_error(e);
         }
       }
+    },
+    async get_rooms(org) {
+      var api = org.wrapper;
+      var response = await api.get_my_rooms(org.id);
+      org.rooms = response.data.results;
     }
   }
 });

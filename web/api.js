@@ -19,6 +19,10 @@ class APIWrapper {
   get_token(temp) {
     return this.http.post(`${this.base_url}/api-v1/get-token`, {token: temp});
   }
+
+  get_my_rooms(org_id) {
+    return this.http.get(`${this.base_url}/api-v1/org/${org_id}/my-rooms`);
+  }
 }
 
 export default APIWrapper;

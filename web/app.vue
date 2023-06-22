@@ -46,6 +46,7 @@ export default {
   components: {ServerLogin},
   setup () {
     const leftDrawerOpen = ref(false);
+    const selected_tab = ref(0);
     const mstore = useMainStore();
 
     function get_temp_token() {
@@ -63,6 +64,10 @@ export default {
       return ret;
     }
 
+    function rooms() {
+      return orgs()[selected_tab.value].rooms;
+    }
+
     let params = get_temp_token();
     if (params.token) {
       mstore.login_with_token(params.server, params.token);
@@ -73,7 +78,9 @@ export default {
     return {
       mstore,
       orgs: computed(orgs),
+      rooms: computed(rooms),
       leftDrawerOpen,
+      selected_tab,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       }
