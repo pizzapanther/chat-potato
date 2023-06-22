@@ -10,6 +10,7 @@ function display_error(e) {
 const useMainStore = defineStore('main', {
   state: () => {
     return {
+      selected_tab: null,
       show_login: null,
       users: {},
       orgs: {}
@@ -17,6 +18,26 @@ const useMainStore = defineStore('main', {
   },
   persist: {
     paths: ["users"]
+  },
+  getters: {
+    orgs_flat(state) {
+      var ret = [];
+
+      for (const url in state.orgs) {
+        state.orgs[url].forEach((org) => {
+          ret.push(org);
+        });
+      }
+
+      return ret;
+    },
+    current_rooms(state) {
+      if (state.selected_tab !== null) {
+        return state.orgs_flat[state.selected_tab].rooms;
+      }
+
+      return [];
+    }
   },
   actions: {
     async login_with_token(server_url, token) {
@@ -55,8 +76,14 @@ const useMainStore = defineStore('main', {
             rooms: [],
             ...org
           };
+
+          if (this.selected_tab === null) {
+            this.selected_tab = 0;
+          } else {
+            this.selected_tab = this.orgs_flat.length;
+          }
           this.orgs[server_url].push(org_data);
-          this.get_rooms(org_data);
+          this.get_rooms(this.orgs[server_url][this.orgs[server_url].length - 1]);
         });
       }
 

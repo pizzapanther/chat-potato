@@ -14,12 +14,14 @@
       </q-toolbar>
 
       <q-tabs align="left">
-        <q-tab v-for="org in orgs" :label="org.name" />
+        <q-tab v-for="org in mstore.orgs_flat" :label="org.name" />
       </q-tabs>
     </q-header>
 
     <q-drawer show-if-above v-model="leftDrawerOpen" side="left" bordered>
-      <!-- drawer content -->
+      <ul>
+        <li v-for="r in mstore.current_rooms">{{ r.name }}</li>
+      </ul>
     </q-drawer>
 
     <q-page-container>
@@ -35,8 +37,7 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue';
-import { mapState } from 'pinia';
+import { ref } from 'vue';
 
 import useMainStore from '@root/store.js';
 import ServerLogin from '@root/components/login.vue'
@@ -46,26 +47,11 @@ export default {
   components: {ServerLogin},
   setup () {
     const leftDrawerOpen = ref(false);
-    const selected_tab = ref(0);
     const mstore = useMainStore();
 
     function get_temp_token() {
       let params = new URLSearchParams(location.search);
       return {token: params.get("temp"), server: params.get("server")};
-    }
-
-    function orgs() {
-      var ret = [];
-      for (const url in mstore.orgs) {
-        mstore.orgs[url].forEach((org) => {
-          ret.push(org);
-        });
-      }
-      return ret;
-    }
-
-    function rooms() {
-      return orgs()[selected_tab.value].rooms;
     }
 
     let params = get_temp_token();
@@ -77,10 +63,7 @@ export default {
 
     return {
       mstore,
-      orgs: computed(orgs),
-      rooms: computed(rooms),
       leftDrawerOpen,
-      selected_tab,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       }
