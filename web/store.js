@@ -11,6 +11,7 @@ const useMainStore = defineStore('main', {
   state: () => {
     return {
       selected_tab: null,
+      selected_room: null,
       show_login: null,
       users: {},
       orgs: {}
