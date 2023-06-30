@@ -29,7 +29,8 @@
         <server-login :server="mstore.show_login"></server-login>
       </div>
       <div v-else>
-        chat
+        <room-viewer></room-viewer>
+        <chat-input></chat-input>
       </div>
     </q-page-container>
 

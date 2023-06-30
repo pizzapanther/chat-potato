@@ -100,6 +100,7 @@ const useMainStore = defineStore('main', {
       var api = org.wrapper;
       var response = await api.get_my_rooms(org.id);
       org.rooms = response.data.results;
+      this.selected_room = 0;
     }
   }
 });
