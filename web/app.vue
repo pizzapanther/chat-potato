@@ -30,6 +30,7 @@
       </div>
       <div v-else>
         <room-viewer></room-viewer>
+        <q-separator />
         <chat-input></chat-input>
       </div>
     </q-page-container>
@@ -42,10 +43,12 @@ import { ref } from 'vue';
 
 import useMainStore from '@root/store.js';
 import ServerLogin from '@root/components/login.vue'
+import ChatInput from '@root/components/chat-input.vue'
+import RoomViewer from '@root/components/room-viewer.vue'
 
 
 export default {
-  components: {ServerLogin},
+  components: {ServerLogin, ChatInput, RoomViewer},
   setup () {
     const leftDrawerOpen = ref(false);
     const mstore = useMainStore();
