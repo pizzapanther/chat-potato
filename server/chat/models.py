@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.contrib.postgres.fields import CICharField
 
 from timescale.db.models.fields import TimescaleDateTimeField
 from timescale.db.models.managers import TimescaleManager
@@ -21,7 +22,7 @@ class Organization(models.Model):
 
 
 class Room(models.Model):
-  name = models.CharField(max_length=70)
+  name = CICharField(max_length=70)
   org = models.ForeignKey(Organization, on_delete=models.CASCADE)
 
   members = models.ManyToManyField(settings.AUTH_USER_MODEL)
@@ -31,16 +32,22 @@ class Room(models.Model):
   modified = models.DateTimeField(auto_now=True)
   created = models.DateTimeField(auto_now_add=True)
 
+  class Meta:
+    unique_together = ["name", "org"]
+
   def __str__(self):
     return self.name
 
 
 class Topic(models.Model):
-  name = models.CharField(max_length=70)
+  name = CICharField(max_length=70)
   room = models.ForeignKey(Room, on_delete=models.CASCADE)
 
   modified = models.DateTimeField(auto_now=True)
   created = models.DateTimeField(auto_now_add=True)
+
+  class Meta:
+    unique_together = ["name", "room"]
 
   def __str__(self):
     return self.name
