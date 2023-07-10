@@ -1,6 +1,7 @@
 from django import http
 from django.db.models import Q
 from django.core.paginator import Paginator
+from django.utils import timezone
 
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -8,7 +9,7 @@ from rest_framework.response import Response
 from rest_framework.settings import api_settings
 
 from chat.serializers import OrgSerializer, RoomSerializer, TopicSerializer
-from chat.models import Organization, Room, Topic
+from chat.models import Organization, Room, Topic, Message
 
 
 def paginated_reponse(request, serializer, queryset):
@@ -72,8 +73,27 @@ def topic_list(request, org_id, room_id):
 @permission_classes([IsAuthenticated])
 def send_chat(request, org_id, room_id):
   topic = request.data.get('topic')
+  message = request.data.get('message')
   if not topic:
     return http.HttpResponse("Topic Required", content_type="text/plain", status=400)
 
-  topics = Topic.objects.filter(room__members=request.user, room__org_id=org_id, room_id=room_id)
-  topic = topics.filter()
+  if not message:
+    return http.HttpResponse("Message Required", content_type="text/plain", status=400)
+
+  room = Room.objects.filter(members=request.user, org_id=org_id, id=room_id).first()
+  if not room:
+    raise http.Http404
+
+  topic = Topic.objects.filter(room=room, name=topic).first()
+  if not topic:
+    topic = Topic(name=topic, room=room)
+    topic.save()
+
+  message = Message(
+    time=timezone.now(),
+    text=message,
+    topic=topic,
+    author=request.user,
+  )
+  message.save()
+  return Response({"results": {"saved": message.id}})
