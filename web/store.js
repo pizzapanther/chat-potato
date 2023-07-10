@@ -12,6 +12,7 @@ const useMainStore = defineStore('main', {
     return {
       selected_tab: null,
       selected_room: null,
+      selected_topic: null,
       show_login: null,
       users: {},
       orgs: {}
@@ -38,6 +39,16 @@ const useMainStore = defineStore('main', {
       }
 
       return [];
+    },
+    current_room(state) {
+      if (state.current_rooms.length > 0) {
+        return state.current_rooms[state.selected_room];
+      }
+    },
+    current_topic(state) {
+      if (state.current_room) {
+        return state.current_room.topics[state.selected_topic];
+      }
     }
   },
   actions: {
@@ -99,8 +110,30 @@ const useMainStore = defineStore('main', {
     async get_rooms(org) {
       var api = org.wrapper;
       var response = await api.get_my_rooms(org.id);
-      org.rooms = response.data.results;
-      this.selected_room = 0;
+      if (this.selected_tab !== null && this.orgs_flat[this.selected_tab].id == org.id) {
+        org.rooms = response.data.results;
+        org.rooms.forEach((r) => {
+          r.topics = [];
+        });
+        this.selected_room = 0;
+        await this.get_topics(org, org.rooms[0]);
+      }
+    },
+    async get_topics(org, room) {
+      var api = org.wrapper;
+      var response = await api.get_topics(org.id, room.id);
+      if (this.selected_tab !== null && this.selected_room !== null) {
+        if (this.orgs_flat[this.selected_tab].id == org.id && this.orgs_flat[this.selected_tab].rooms[this.selected_room].id == room.id) {
+          this.selected_topic = 0;
+          var topics = this.orgs_flat[this.selected_tab].rooms[this.selected_room].topics;
+          response.data.results.forEach((t) => {
+            topics.push(t);
+          });
+        }
+      }
+    },
+    async send_chat(text) {
+      console.log(text);
     }
   }
 });

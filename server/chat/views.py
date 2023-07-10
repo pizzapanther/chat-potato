@@ -66,3 +66,14 @@ def my_rooms(request, org_id):
 def topic_list(request, org_id, room_id):
   topics = Topic.objects.filter(room__members=request.user, room__org_id=org_id, room_id=room_id).order_by('-modified')
   return paginated_reponse(request, TopicSerializer, topics)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def send_chat(request, org_id, room_id):
+  topic = request.data.get('topic')
+  if not topic:
+    return http.HttpResponse("Topic Required", content_type="text/plain", status=400)
+
+  topics = Topic.objects.filter(room__members=request.user, room__org_id=org_id, room_id=room_id)
+  topic = topics.filter()

@@ -19,9 +19,7 @@
     </q-header>
 
     <q-drawer show-if-above v-model="leftDrawerOpen" side="left" bordered>
-      <ul>
-        <li v-for="r in mstore.current_rooms">{{ r.name }}</li>
-      </ul>
+      <room-list></room-list>
     </q-drawer>
 
     <q-page-container>
@@ -45,10 +43,11 @@ import useMainStore from '@root/store.js';
 import ServerLogin from '@root/components/login.vue'
 import ChatInput from '@root/components/chat-input.vue'
 import RoomViewer from '@root/components/room-viewer.vue'
+import RoomList from '@root/components/room-list.vue'
 
 
 export default {
-  components: {ServerLogin, ChatInput, RoomViewer},
+  components: {ServerLogin, ChatInput, RoomViewer, RoomList},
   setup () {
     const leftDrawerOpen = ref(false);
     const mstore = useMainStore();

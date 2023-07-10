@@ -40,7 +40,7 @@ class Room(models.Model):
 
 
 class Topic(models.Model):
-  name = CICharField(max_length=70)
+  name = CICharField(max_length=70, db_index=True)
   room = models.ForeignKey(Room, on_delete=models.CASCADE)
 
   modified = models.DateTimeField(auto_now=True)

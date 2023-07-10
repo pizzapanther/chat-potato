@@ -23,6 +23,10 @@ class APIWrapper {
   get_my_rooms(org_id) {
     return this.http.get(`${this.base_url}/api-v1/org/${org_id}/my-rooms`);
   }
+
+  get_topics(org_id, room_id) {
+    return this.http.get(`${this.base_url}/api-v1/org/${org_id}/room/${room_id}/topics`);
+  }
 }
 
 export default APIWrapper;

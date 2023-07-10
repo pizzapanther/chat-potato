@@ -11,4 +11,5 @@ urlpatterns = [
   path('org/<int:org_id>/my-rooms', chat.views.my_rooms),
   path('org/<int:org_id>/available-rooms', chat.views.available_rooms),
   path('org/<int:org_id>/room/<int:room_id>/topics', chat.views.topic_list),
+  path('org/<int:org_id>/room/<int:room_id>/send-chat', chat.views.send_chat),
 ]
