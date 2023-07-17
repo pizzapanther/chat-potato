@@ -25,6 +25,7 @@ class JWTAuthMiddleware:
         user = User.objects.filter(id=payload['user'], is_active=True, profile__version=payload['version']).first()
         if user:
           request.user = user
+          request.bypass_csrf = True
 
     response = self.get_response(request)
     return response

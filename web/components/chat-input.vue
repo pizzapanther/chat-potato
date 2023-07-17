@@ -9,8 +9,8 @@
     <div v-else>No Room Selected</div>
   </div>
   <div class="wrapper">
-    <q-input v-model="text" outlined autogrow type="textarea" @keyup.ctrl.enter="send_text" />
-    <div><q-btn color="primary" icon="mdi-send" @click="send_text()"/></div>
+    <q-input v-model="text" outlined autogrow type="textarea" @keyup.ctrl.enter="send_text" :disable="sending"/>
+    <div><q-btn color="primary" icon="mdi-send" @click="send_text()" :disable="sending"/></div>
   </div>
 </div>
 </template>
@@ -21,13 +21,27 @@ import useMainStore from '@root/store.js';
 export default {
   setup() {
     var text = ref('');
+    var sending = ref(false);
     const mstore = useMainStore();
 
     function send_text() {
-      mstore.send_chat(text.value);
+      if (!sending.value) {
+        sending.value = true;
+        console.log('NARF', text.value);
+        mstore.send_chat(text.value)
+          .then((response) => {
+            sending.value = false;
+            text.value = '';
+          })
+          .catch((e) => {
+            console.error(e);
+            sending.value = false;
+            alert('Error sending message');
+          });
+      }
     }
 
-    return {text, send_text, mstore};
+    return {text, send_text, mstore, sending};
   }
 }
 </script>

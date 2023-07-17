@@ -15,6 +15,7 @@ dependencies = [
     "django-environ>=0.10.0",
     "pyjwt>=2.7.0",
     "uvicorn[standard]>=0.22.0",
+    "django-easy-logging>=0.60",
 ]
 requires-python = ">=3.10"
 license = {text = "BSDv3"}

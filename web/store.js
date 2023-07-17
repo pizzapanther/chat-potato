@@ -33,6 +33,11 @@ const useMainStore = defineStore('main', {
 
       return ret;
     },
+    current_org(state) {
+      if (state.selected_tab !== null) {
+        return state.orgs_flat[state.selected_tab];
+      }
+    },
     current_rooms(state) {
       if (state.selected_tab !== null) {
         return state.orgs_flat[state.selected_tab].rooms;
@@ -132,8 +137,10 @@ const useMainStore = defineStore('main', {
         }
       }
     },
-    async send_chat(text) {
-      console.log(text);
+    async send_chat(message) {
+      console.log(message);
+      var org = this.current_org;
+      return org.wrapper.send_message(org.id, this.current_room.id, this.current_topic.name, message);
     }
   }
 });

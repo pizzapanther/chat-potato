@@ -142,6 +142,10 @@ REST_FRAMEWORK = {
   'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
   'PAGE_SIZE': 300,
   'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+  'DEFAULT_AUTHENTICATION_CLASSES': [
+    'rest_framework.authentication.BasicAuthentication',
+    'account.authentication.FixSessionAuthentication',
+  ]
 }
 
 CORS_ALLOWED_ORIGINS = env('CORS_ALLOWED_ORIGINS')
@@ -160,3 +164,8 @@ AUTH_METHODS = []
 if AUTH_USE_PASSWORD:
   password_url = BASE_URL + '/account/login'
   AUTH_METHODS.append({'icon': '', 'name': 'Password', 'url': password_url})
+
+
+from dj_easy_log import load_loguru
+
+load_loguru(globals())
