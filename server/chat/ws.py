@@ -3,9 +3,16 @@ import json
 import re
 import traceback
 
+from django.core.handlers.asgi import ASGIRequest
 from django.urls.resolvers import _route_to_regex
 
 from loguru import logger
+
+class WebSocketRequest(ASGIRequest):
+  def __init__(self, scope, body_file):
+    scope['method'] = 'GET'
+    super().__init__(scope, body_file)
+
 
 class JsonWebSocket:
   connect_tasks = []
@@ -17,6 +24,7 @@ class JsonWebSocket:
     self.receive = receive
     self.send = send
     self.tasks = set()
+    self.request = WebSocketRequest(scope, None)
 
   async def init_socket(self):
     pass
@@ -77,7 +85,7 @@ class JsonWebSocket:
 
     while 1:
       if self.tasks:
-        logger.info('Waiting for tasks to finish.')
+        # wait for tasks to finish
         await asyncio.sleep(0.1)
 
       else:
