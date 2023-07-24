@@ -161,3 +161,6 @@ cython_debug/
 
 .parcel-cache/
 node_modules/
+
+.bash_history
+.python_history

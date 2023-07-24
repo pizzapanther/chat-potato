@@ -1,0 +1,21 @@
+# database
+gdal-bin
+binutils
+proj-bin
+libproj-dev
+libgeos++
+libgeos-dev
+
+# frontend
+nodejs
+build-essential
+
+python3.11
+python3.11-dev
+python3.11-distutils
+python3.11-venv
+python3-pip
+python3-full
+pipx
+
+git
