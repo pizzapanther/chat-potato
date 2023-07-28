@@ -94,7 +94,7 @@ WSGI_APPLICATION = 'cpot.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': env.db_url(default='postgres:///cpot?host=/var/run/postgresql')
+    'default': env.db_url(default='postgres://postgres:passyword@localhost:5455/cpot')
 }
 
 

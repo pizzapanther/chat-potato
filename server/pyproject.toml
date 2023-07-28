@@ -17,6 +17,7 @@ dependencies = [
     "uvicorn[standard]>=0.22.0",
     "django-easy-logging>=0.60",
     "whitenoise>=6.5.0",
+    "aiokafka[lz4]>=0.8.1",
 ]
 requires-python = ">=3.10"
 license = {text = "BSDv3"}
