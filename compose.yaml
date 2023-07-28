@@ -19,6 +19,8 @@ services:
         depends_on:
             - redis
             - postgresql
+            - keycloak
+            - kafka
         shm_size: 4gb
     redis:
         image: 'bitnami/redis:latest'
@@ -41,3 +43,28 @@ services:
         network_mode: host
         ports:
             - 5455:5455
+    keycloak:
+        image: quay.io/keycloak/keycloak:21.1.2
+        restart: always
+        command: start-dev
+        environment:
+            - KEYCLOAK_ADMIN=admin
+            - KEYCLOAK_ADMIN_PASSWORD=admin
+            - KC_DB=postgres
+            - KC_DB_URL_HOST=localhost
+            - KC_DB_URL_PORT=5455
+            - KC_DB_USERNAME=postgres
+            - KC_DB_PASSWORD=passyword
+        network_mode: host
+        ports:
+            - 8080:8080
+        depends_on:
+            - postgresql
+    kafka:
+        image: bitnami/kafka:latest
+        restart: always
+        environment:
+            - ALLOW_PLAINTEXT_LISTENER=yes
+        network_mode: host
+        ports:
+            - 9092:9092
