@@ -60,11 +60,3 @@ services:
             - 8080:8080
         depends_on:
             - postgresql
-    kafka:
-        image: bitnami/kafka:latest
-        restart: always
-        environment:
-            - ALLOW_PLAINTEXT_LISTENER=yes
-        network_mode: host
-        ports:
-            - 9092:9092
