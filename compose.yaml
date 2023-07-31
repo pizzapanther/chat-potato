@@ -20,7 +20,6 @@ services:
             - redis
             - postgresql
             - keycloak
-            - kafka
         shm_size: 4gb
     redis:
         image: 'bitnami/redis:latest'

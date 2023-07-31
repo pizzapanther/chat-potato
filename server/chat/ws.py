@@ -3,6 +3,7 @@ import json
 import re
 import traceback
 
+from django.conf import settings
 from django.core.handlers.asgi import ASGIRequest
 from django.urls.resolvers import _route_to_regex
 
@@ -64,7 +65,16 @@ class JsonWebSocket:
       task.add_done_callback(self.tasks.discard)
 
   async def send_message(self, data):
-    message = json.dumps(data)
+    print(data, type(data))
+    if type(data) == bytes:
+      message = data.decode()
+
+    elif type(data) != str:
+      message = json.dumps(data)
+
+    else:
+      message = data
+
     await self.send({'type': 'websocket.send', 'text': message})
 
   async def run (self):
@@ -95,18 +105,23 @@ class JsonWebSocket:
 
 
 class RoomSocket(JsonWebSocket):
-  connect_tasks = ['dummy_task']
+  connect_tasks = ['room_listener']
 
   async def init_socket(self, org_id, room_id):
-    print(org_id, room_id)
+    self.org_id = org_id
+    self.room_id = room_id
 
-  async def dummy_task(self):
-    while 1:
-      if self.closed:
-        break
+  async def room_listener(self):
+    async with settings.REDIS_ASYNC_CLIENT.pubsub() as pubsub:
+      await pubsub.subscribe(f"room_{self.room_id}")
 
-      await self.send_message({"status": "OK"})
-      await asyncio.sleep(10)
+      while 1:
+        if self.closed:
+          break
+
+        msg = await pubsub.get_message(ignore_subscribe_messages=True)
+        if msg is not None:
+          await self.send_message(msg['data'])
 
 
 routes = (

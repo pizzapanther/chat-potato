@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 
 import environ
+import redis
+import redis.asyncio
 
 env = environ.Env(
   DEBUG=(bool, False),
@@ -20,6 +22,7 @@ env = environ.Env(
   CORS_ALLOWED_ORIGIN_REGEXES=(list, []),
   CORS_ALLOW_ALL_ORIGINS=(bool, True),
   AUTH_USE_PASSWORD=(bool, False),
+  REDIS_URL=(str, 'redis://localhost:6355'),
 )
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -97,10 +100,9 @@ DATABASES = {
     'default': env.db_url(default='postgres://postgres:passyword@localhost:5455/cpot')
 }
 
-CACHES = {
-  'default': env.cache_url('REDIS_URL', default='redis://localhost:6355')
-}
-
+CACHES = {'default': env.cache_url('REDIS_URL', default='redis://localhost:6355')}
+REDIS_CLIENT = redis.Redis.from_url(env('REDIS_URL'))
+REDIS_ASYNC_CLIENT = redis.asyncio.Redis.from_url(env('REDIS_URL'))
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
