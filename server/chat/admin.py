@@ -34,5 +34,5 @@ class TopicAdmin(admin.ModelAdmin):
 
 @admin.register(Message)
 class MsgAdmin(admin.ModelAdmin):
-  list_display = ('time', 'topic', 'author')
+  list_display = ('time', 'morder', 'topic', 'author')
   raw_id_fields = ['topic', 'author']

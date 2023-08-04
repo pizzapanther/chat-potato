@@ -89,11 +89,29 @@ def send_chat(request, org_id, room_id):
     topic = Topic(name=topic, room=room)
     topic.save()
 
-  message = Message(
-    time=timezone.now(),
-    text=message,
-    topic=topic,
-    author=request.user,
-  )
-  message.save()
-  return Response({"results": {"saved": message.id}})
+  for i in range(5):
+    morder = Message.objects.filter(topic=topic).order_by('-morder').first()
+    if morder:
+      morder = morder.morder + 1
+
+    else:
+      morder = 1
+
+    try:
+      message = Message(
+        time=timezone.now(),
+        text=message,
+        topic=topic,
+        author=request.user,
+        morder=morder,
+      )
+      message.save()
+
+    except:
+      pass
+
+    else:
+      print("New Message:", message.id)
+      return Response({"results": {"saved": message.id}})
+
+  raise

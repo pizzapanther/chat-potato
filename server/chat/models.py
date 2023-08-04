@@ -67,12 +67,15 @@ class Message(models.Model):
   time = TimescaleDateTimeField(interval="10 minutes")
 
   text = models.TextField(max_length=512)
-
+  morder = models.BigIntegerField()
   topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
   author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
 
   objects = models.Manager()
   timescale = TimescaleManager()
+
+  class Meta:
+    unique_together = ["topic", "morder"]
 
   def __str__(self):
     return str(self.time)
@@ -89,7 +92,16 @@ def msg_deserializer(serialized):
 @receiver(post_save, sender=Message, dispatch_uid="redis_signal")
 def redis_signal(*args, **kwargs):
   msg = kwargs['instance']
+  prev = Message.objects.filter(topic=msg.topic, morder__lt=msg.morder).order_by('-morder').first()
+  if prev:
+    prev = prev.morder
+
   settings.REDIS_CLIENT.publish(
     f'room_{msg.topic.room.id}',
-    msg_serializer({'text': msg.text, 'topic': msg.topic.name})
+    msg_serializer({
+      'text': msg.text,
+      'topic': msg.topic.name,
+      'morder': msg.morder,
+      'prev': prev,
+    })
   )

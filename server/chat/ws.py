@@ -65,7 +65,6 @@ class JsonWebSocket:
       task.add_done_callback(self.tasks.discard)
 
   async def send_message(self, data):
-    print(data, type(data))
     if type(data) == bytes:
       message = data.decode()
 
