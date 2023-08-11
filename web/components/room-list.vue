@@ -11,7 +11,7 @@
   </ul>
 </template>
 <script>
-import useMainStore from '@root/store.js';
+import useMainStore from '@root/store/index.js';
 
 export default {
   setup() {

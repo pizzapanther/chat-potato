@@ -39,11 +39,12 @@
 <script>
 import { ref } from 'vue';
 
-import useMainStore from '@root/store.js';
-import ServerLogin from '@root/components/login.vue'
-import ChatInput from '@root/components/chat-input.vue'
-import RoomViewer from '@root/components/room-viewer.vue'
-import RoomList from '@root/components/room-list.vue'
+import useMainStore from '@root/store/index.js';
+import wsWatcher from '@root/store/ws-connect.js';
+import ServerLogin from '@root/components/login.vue';
+import ChatInput from '@root/components/chat-input.vue';
+import RoomViewer from '@root/components/room-viewer.vue';
+import RoomList from '@root/components/room-list.vue';
 
 
 export default {
@@ -51,6 +52,7 @@ export default {
   setup () {
     const leftDrawerOpen = ref(false);
     const mstore = useMainStore();
+    wsWatcher(mstore);
 
     function get_temp_token() {
       let params = new URLSearchParams(location.search);

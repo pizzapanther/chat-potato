@@ -32,6 +32,23 @@ class APIWrapper {
     var data = {topic, message};
     return this.http.post(`${this.base_url}/api-v1/org/${org_id}/room/${room_id}/send-chat`, data);
   }
+
+  connect_to_room(org_id, room_id, on_msg) {
+    var ws_url = `${this.base_url}/ws-v1/org/${org_id}/room/${room_id}/`;
+    ws_url = ws_url.replace('https://', 'wss://');
+    ws_url = ws_url.replace('http://', 'ws://');
+
+    this.ws = new WebSocket(ws_url);
+    this.ws.onopen = () => {
+      console.log('WS Opened');
+    }
+    this.ws.onclose = () => {
+      console.log('closed');
+    }
+    this.ws.onmessage = (event) => {
+      on_msg(JSON.parse(event.data));
+    };
+  }
 }
 
 export default APIWrapper;

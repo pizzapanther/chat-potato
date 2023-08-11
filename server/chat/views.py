@@ -111,7 +111,7 @@ def send_chat(request, org_id, room_id):
       pass
 
     else:
-      print("New Message:", message.id)
+      print("New Message POST:", message.id)
       return Response({"results": {"saved": message.id}})
 
   raise

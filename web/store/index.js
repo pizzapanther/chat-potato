@@ -15,13 +15,36 @@ const useMainStore = defineStore('main', {
       selected_topic: null,
       show_login: null,
       users: {},
-      orgs: {}
+      orgs: {},
+      messages: []
     }
   },
   persist: {
     paths: ["users"]
   },
   getters: {
+    grouped_messages(state) {
+      var ret = [];
+      var tmp = [];
+      var prev_topic = null;
+      state.messages.forEach((msg) => {
+        if (msg.topic != prev_topic) {
+          if (tmp.length > 0) {
+            ret.push(tmp);
+            tmp = [];
+          }
+        }
+
+        prev_topic = msg.topic;
+        tmp.push(msg);
+      });
+
+      if (tmp.length > 0) {
+        ret.push(tmp);
+      }
+
+      return ret;
+    },
     orgs_flat(state) {
       var ret = [];
 
@@ -138,7 +161,6 @@ const useMainStore = defineStore('main', {
       }
     },
     async send_chat(message) {
-      console.log(message);
       var org = this.current_org;
       return org.wrapper.send_message(org.id, this.current_room.id, this.current_topic.name, message);
     }

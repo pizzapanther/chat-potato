@@ -99,9 +99,12 @@ def redis_signal(*args, **kwargs):
   settings.REDIS_CLIENT.publish(
     f'room_{msg.topic.room.id}',
     msg_serializer({
+      'id': msg.id,
       'text': msg.text,
       'topic': msg.topic.name,
       'morder': msg.morder,
       'prev': prev,
+      'author': msg.author.id,
+      'timestamp': msg.time.isoformat()
     })
   )
